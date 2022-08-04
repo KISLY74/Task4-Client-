@@ -5,6 +5,7 @@ export default class UserStore {
     this._isAuth = false
     this._user = {}
     this._isBlock = false
+    this._isDelete = false
     makeAutoObservable(this)
   }
   setIsAuth(bool) {
@@ -16,6 +17,9 @@ export default class UserStore {
   setIsBlock(bool) {
     this._isBlock = bool
   }
+  setIsDelete(bool) {
+    this._isDelete = bool
+  }
   get isAuth() {
     return this._isAuth
   }
@@ -24,5 +28,8 @@ export default class UserStore {
   }
   get isBlock() {
     return this._isBlock
+  }
+  get isDelete() {
+    return this._isDelete
   }
 }
