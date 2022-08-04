@@ -9,12 +9,14 @@ export const regin = async (email, password, name) => {
 export const login = async (email, password) => {
   const { data } = await $authHost.post('api/user/login', { email, password });
   localStorage.setItem("token", data.token)
+  localStorage.setItem("id", jwt_decode(data.token).id)
   localStorage.setItem("email", jwt_decode(data.token).email)
   return data
 }
 export const check = async () => {
   const { data } = await $authHost.get('api/user/auth');
   localStorage.setItem("token", data.token)
+  localStorage.setItem("id", jwt_decode(data.token).id)
   localStorage.setItem("email", jwt_decode(data.token).email)
   return data
 }
@@ -26,11 +28,15 @@ export const getOneUser = async (email) => {
   const { data } = await $host.post('api/user/get', { email });
   return data
 }
-export const changeStatus = async (email, status) => {
-  const { data } = await $host.put('api/user/change/status', { email, status });
+export const changeStatus = async (id, status) => {
+  const { data } = await $host.put('api/user/change/status', { id, status });
   return data
 }
 export const getCountUsersStatus = async () => {
   const { data } = await $host.get('api/user/status');
+  return data
+}
+export const changeDateLogin = async (email) => {
+  const { data } = await $host.put('api/user/change/dateLogin', { email });
   return data
 }
