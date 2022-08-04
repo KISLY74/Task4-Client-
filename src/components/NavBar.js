@@ -17,11 +17,11 @@ const NavBar = observer(() => {
   return (
     <Navbar className="d-flex justify-content-between" style={{ paddingLeft: 15, paddingRight: 15 }
     } bg="dark" variant="dark" >
-      < h6 style={{ color: 'white' }}> {userName ? userName : ""}</h6 >
+      < h4 style={{ color: 'white' }}> {userName && !user.isBlock && user.isAuth ? userName : ""}</h4 >
       {
         user.isAuth ? <Nav className="ml-auto" style={{ color: 'white' }
         } >
-          <Button variant={"outline-light"} onClick={() => logOut()} > Выйти</Button>
+          <Button variant={"outline-light"} onClick={() => logOut()}>Выйти</Button>
         </Nav > :
           <Nav style={{ color: 'white' }}>
             <Button variant={"outline-light"} onClick={() => history("/login")} >Авторизация</Button>
