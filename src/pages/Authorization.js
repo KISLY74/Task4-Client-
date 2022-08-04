@@ -3,6 +3,7 @@ import { regin, login } from "../http/userApi";
 import { useContext, useState } from "react";
 import { Container, Card, Form, Button, Row } from "react-bootstrap"
 import { Context } from "../index";
+import { getOneUser } from "../http/userApi";
 
 function Authorization() {
   const location = useLocation()
@@ -17,7 +18,15 @@ function Authorization() {
       let res
       if (isLogin) {
         res = await login(email, password)
-        user.setIsAuth(true)
+        let data = await getOneUser(email).then(data => data)
+        localStorage.setItem("userName", data.name)
+        if (data.status === "Block") {
+          user.setIsBlock(true)
+          user.setIsAuth(false)
+        } else {
+          user.setIsBlock(false)
+          user.setIsAuth(true)
+        }
         history("/users")
       } else {
         res = await regin(email, password, name)
