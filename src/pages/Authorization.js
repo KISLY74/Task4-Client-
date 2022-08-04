@@ -1,5 +1,5 @@
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { regin, login } from "../http/userApi";
+import { regin, login, changeDateLogin } from "../http/userApi";
 import { useContext, useState } from "react";
 import { Container, Card, Form, Button, Row } from "react-bootstrap"
 import { Context } from "../index";
@@ -9,6 +9,7 @@ function Authorization() {
   const location = useLocation()
   const history = useNavigate()
   const isLogin = location.pathname === "/login"
+  const isRegin = location.pathname === "/regin"
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -17,19 +18,33 @@ function Authorization() {
     try {
       let res
       if (isLogin) {
-        res = await login(email, password)
-        let data = await getOneUser(email).then(data => data)
-        localStorage.setItem("userName", data.name)
-        if (data.status === "Block") {
-          user.setIsBlock(true)
-          user.setIsAuth(false)
-        } else {
-          user.setIsBlock(false)
-          user.setIsAuth(true)
+        let data
+        res = await login(email, password).then(async () => {
+          await changeDateLogin(email)
+          data = await getOneUser(email).then(data => data)
+          if (!data) alert("Пользователь удалён!")
+        }).catch((err) => alert(err.response.data.message))
+        if (data) {
+          localStorage.setItem("userName", data.name)
+          if (data.status === "Block") {
+            user.setIsBlock(true)
+            user.setIsAuth(false)
+            history("/login")
+            alert("Пользователь заблокирован!")
+          } else if (data.status === "Delete") {
+            user.setIsDelete(true)
+            user.setIsAuth(false)
+            history("/login")
+            alert("Пользователь удалён!")
+          } else {
+            user.setIsBlock(false)
+            user.setIsDelete(false)
+            user.setIsAuth(true)
+            history("/users")
+          }
         }
-        history("/users")
-      } else {
-        res = await regin(email, password, name)
+      } else if (isRegin) {
+        let res = await regin(email, password, name).then(() => history("/login")).catch((err) => alert(err.response.data.message))
       }
     } catch (e) {
       console.log(e)
