@@ -12,9 +12,14 @@ const App = observer(() => {
   const [loading, setLoading] = useState(true)
   useEffect(() => {
     check().then(data => {
-      user.setUser(true)
-      user.setIsAuth(true)
-    }).catch(e => console.log(e.response)).finally(() => { setLoading(false) })
+      if (user.isBlock || user.isDelete) {
+        user.setIsAuth(false)
+        user.setUser({})
+      } else {
+        user.setIsAuth(true)
+        user.setUser(true)
+      }
+    }).catch(e => console.log(e)).finally(() => { setLoading(false) })
   }, [])
 
   if (loading) {
