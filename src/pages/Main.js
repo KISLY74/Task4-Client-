@@ -3,7 +3,6 @@ import { observer } from "mobx-react-lite";
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../index";
 import { getUsers, getOneUser, changeStatus, getCountUsersStatus } from '../http/userApi';
-import { useNavigate } from 'react-router-dom';
 
 const Main = observer(() => {
   const { user } = useContext(Context)
