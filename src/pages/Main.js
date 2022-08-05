@@ -121,11 +121,11 @@ const Main = observer(() => {
                   <Form.Check className="checkbox-all" aria-label="option 1" onClick={() => handleClickCheckboxAll()} />
                   SelectAll/Unselected
                 </th>
-                {headers ? headers.map((e, i) => (i !== 2 && i !== 7 && i !== 8) ? <th>{`${e}`}</th> : "") : ""}
+                {headers ? headers.map((e, i) => (i !== 2) ? <th>{`${e}`}</th> : "") : ""}
               </tr>
             </thead>
             <tbody>
-              {usersValues ? usersValues.map((el, ind) => el ? <tr key={ind}><td><Form.Check onClick={() => handleClickCheckbox()} className="checkbox" key={ind} /></td>{el.map((e, i) => (i !== 2 && i !== 7 && i !== 8) ? <td key={i}>{`${e}`}</td> : '')}</tr> : '') : ''}
+              {usersValues ? usersValues.map((el, ind) => el ? <tr key={ind}><td><Form.Check onClick={() => handleClickCheckbox()} className="checkbox" key={ind} /></td>{el.map((e, i) => (i !== 2) ? <td key={i}>{`${e}`}</td> : '')}</tr> : '') : ''}
             </tbody>
           </Table >
         </div > : ""}
