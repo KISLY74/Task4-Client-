@@ -12,6 +12,7 @@ const Main = observer(() => {
   const [isLoading, setLoading] = useState(false)
   const [usersStatus, setUsersStatus] = useState({})
   let checkboxes = []
+  console.log(user)
   document.querySelectorAll(".checkbox").forEach(e => checkboxes.push(e.firstChild))
   const call = async () => {
     try {
@@ -31,6 +32,7 @@ const Main = observer(() => {
       user.setIsBlock(true)
     } else {
       user.setIsAuth(true)
+      user.setIsDelete(false)
       user.setIsBlock(false)
     }
     let countsObj = await getCountUsersStatus()
@@ -77,16 +79,16 @@ const Main = observer(() => {
   return (
     user.isAuth ?
       <div>
-        <ProgressBar className="mt-5">
+        {isLoading ? <ProgressBar className="mt-5">
           <ProgressBar striped variant="success" now={usersStatus.unblock * 100 / users.length} key={1} label="Unblock" />
           <ProgressBar variant="warning" now={usersStatus.block * 100 / users.length} key={2} label="Block" />
           <ProgressBar striped variant="danger" now={usersStatus.delete * 100 / users.length} key={3} label="Delete" />
-        </ProgressBar>
+        </ProgressBar> : ""}
         <ButtonGroup className="mt-3" aria-label="Basic example" onClick={(e) => handleClickChangeStatus(e)}>
           <Button variant="success">Unblock</Button>
           <Button variant="warning">Block</Button>
           <Button variant="danger">Delete</Button>
-        </ButtonGroup >
+        </ButtonGroup>
         {isLoading ? <Table className="mt-3" striped bordered hover variant="dark">
           <thead>
             <tr>
@@ -101,7 +103,7 @@ const Main = observer(() => {
             {usersValues ? usersValues.map((el, ind) => el ? <tr key={ind}><td><Form.Check onClick={() => handleClickCheckbox()} className="checkbox" key={ind} /></td>{el.map((e, i) => (i !== 2 && i !== 7 && i !== 8) ? <td key={i}>{`${e}`}</td> : '')}</tr> : '') : ''}
           </tbody>
         </Table > : <Spinner className="position-absolute top-50 start-50" animation="border" />}
-      </div > : <h1 className="d-flex justify-content-center">{user.isDelete ? `Пользователь ${localStorage.getItem("userName")} удалён` : user.isBlock ? `Пользователь ${localStorage.getItem("userName")} заблокирован!` : "Для управления пользователями необходимо авторизоваться"}</h1>);
+      </div > : <h1 className="d-flex justify-content-center">{user.isBlock ? `Пользователь ${localStorage.getItem("userName")} заблокирован!` : "Для управления пользователями необходимо авторизоваться" || `Пользователь ${localStorage.getItem("userName")} удалён`}</h1>);
 })
 
 export default Main;
