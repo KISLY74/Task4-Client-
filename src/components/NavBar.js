@@ -12,6 +12,9 @@ const NavBar = observer(() => {
   const logOut = () => {
     user.setUser({})
     user.setIsAuth(false)
+    user.setIsDelete(false)
+    user.setIsBlock(false)
+    history("/login")
     localStorage.clear()
   }
   return (
