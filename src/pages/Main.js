@@ -63,16 +63,17 @@ const Main = observer(() => {
   }
   setNoneCheckBoxes()
   const handleClickChangeStatus = (event) => {
-    checkboxes.map(async (e, i) => {
-      if (checkboxes[i].checked && users[i].status !== "Delete") {
-        await changeStatus(users[i].id, event.target.textContent).finally(() => setLoading(true))
-        checkboxes[i].checked = false
-        document.querySelector(".checkbox-all").firstChild.checked = false
-        updateTableUsers()
-        checkUserStatus()
-        updateProgressBar()
-        setNoneCheckBoxes()
-      }
+    checkUserStatus().then(() => {
+      checkboxes.map(async (e, i) => {
+        if (checkboxes[i].checked && users[i].status !== "Delete") {
+          await changeStatus(users[i].id, event.target.textContent).finally(() => setLoading(true))
+          checkboxes[i].checked = false
+          document.querySelector(".checkbox-all").firstChild.checked = false
+          updateTableUsers()
+          updateProgressBar()
+          setNoneCheckBoxes()
+        }
+      })
     })
   }
   const handleClickCheckboxAll = () => {
