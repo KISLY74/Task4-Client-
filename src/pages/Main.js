@@ -125,7 +125,10 @@ const Main = observer(() => {
               </tr>
             </thead>
             <tbody>
-              {usersValues ? usersValues.map((el, ind) => el ? <tr key={ind}><td><Form.Check onClick={() => handleClickCheckbox()} className="checkbox" key={ind} /></td>{el.map((e, i) => (i !== 2) ? <td key={i}>{`${e}`}</td> : '')}</tr> : '') : ''}
+              {usersValues ? usersValues.map((el, ind) => el ? <tr key={ind}><td><Form.Check onClick={() => handleClickCheckbox()} className="checkbox" key={ind} /></td>{el.map((e, i) => {
+                if (i === 4 || i === 5) return <td key={i}>{`${e.toString().slice(0, 10)}`}</td>
+                if (i !== 2) return <td key={i}>{`${e}`}</td>
+              })}</tr> : '') : ''}
             </tbody>
           </Table >
         </div > : ""}
