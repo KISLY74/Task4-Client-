@@ -44,7 +44,8 @@ const Main = observer(() => {
     return users
   }
   const updateProgressBar = async () => {
-    let countsObj = await getCountUsersStatus()
+    setLoading(false)
+    let countsObj = await getCountUsersStatus().finally(() => setLoading(true))
     setUsersStatus(countsObj)
   }
   useEffect(() => {
@@ -62,6 +63,7 @@ const Main = observer(() => {
   }
   setNoneCheckBoxes()
   const handleClickChangeStatus = (event) => {
+    setLoading(false)
     checkUserStatus().then(() => {
       checkboxes.map(async (e, i) => {
         if (checkboxes[i].checked && users[i].status !== "Delete") {
@@ -98,7 +100,9 @@ const Main = observer(() => {
             <ProgressBar striped variant="success" now={usersStatus.unblock * 100 / users.length} key={1} label="Unblock" />
             <ProgressBar variant="warning" now={usersStatus.block * 100 / users.length} key={2} label="Block" />
             <ProgressBar striped variant="danger" now={usersStatus.delete * 100 / users.length} key={3} label="Delete" />
-          </ProgressBar> : ""}
+          </ProgressBar> : <ProgressBar className="mt-5">
+            <ProgressBar animated now={100} label="Loading" />
+          </ProgressBar>}
           <ButtonGroup className="mt-3" aria-label="Basic example" onClick={(e) => handleClickChangeStatus(e)}>
             <Button variant="success">Unblock</Button>
             <Button variant="warning">Block</Button>
