@@ -1,5 +1,5 @@
 import axios from "axios"
-export const API_URL = "http://localhost:1710/"
+export const API_URL = ""
 
 const $host = axios.create({
   baseURL: API_URL
