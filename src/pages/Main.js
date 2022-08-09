@@ -14,7 +14,6 @@ const Main = observer(() => {
   const [isLoading, setLoading] = useState(false)
   const [usersStatus, setUsersStatus] = useState({})
   let checkboxes = []
-  console.log(user)
   document.querySelectorAll(".checkbox").forEach(e => checkboxes.push(e.firstChild))
   const checkUserStatus = async () => {
     let data = await getOneUser(localStorage.getItem("email")).then(data => data)
@@ -66,12 +65,13 @@ const Main = observer(() => {
     checkUserStatus().then(() => {
       checkboxes.map(async (e, i) => {
         if (checkboxes[i].checked && users[i].status !== "Delete") {
-          await changeStatus(users[i].id, event.target.textContent).finally(() => setLoading(true))
+          await changeStatus(users[i]._id, event.target.textContent).finally(() => setLoading(true))
           checkboxes[i].checked = false
           document.querySelector(".checkbox-all").firstChild.checked = false
           updateTableUsers()
           updateProgressBar()
           setNoneCheckBoxes()
+          checkUserStatus()
         }
       })
     })

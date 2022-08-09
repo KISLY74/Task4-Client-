@@ -36,7 +36,7 @@ export const getCountUsersStatus = async () => {
   const { data } = await $host.get('api/user/status');
   return data
 }
-export const changeDateLogin = async (email) => {
-  const { data } = await $host.put('api/user/change/dateLogin', { email });
+export const changeDateLogin = async (id) => {
+  const { data } = await $host.put('api/user/change/dateLogin', { id });
   return data
 }
