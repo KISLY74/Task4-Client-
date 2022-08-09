@@ -94,11 +94,11 @@ const Main = observer(() => {
     <div>
       {user.isAuth ?
         <div>
-          <ProgressBar className="mt-5">
+          {isLoading ? <ProgressBar className="mt-5">
             <ProgressBar striped variant="success" now={usersStatus.unblock * 100 / users.length} key={1} label="Unblock" />
             <ProgressBar variant="warning" now={usersStatus.block * 100 / users.length} key={2} label="Block" />
             <ProgressBar striped variant="danger" now={usersStatus.delete * 100 / users.length} key={3} label="Delete" />
-          </ProgressBar>
+          </ProgressBar> : ""}
           <ButtonGroup className="mt-3" aria-label="Basic example" onClick={(e) => handleClickChangeStatus(e)}>
             <Button variant="success">Unblock</Button>
             <Button variant="warning">Block</Button>
