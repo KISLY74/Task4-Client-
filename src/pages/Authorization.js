@@ -22,7 +22,7 @@ function Authorization() {
       if (isLogin) {
         let data
         res = await login(email, password).then(async () => {
-          await changeDateLogin(email)
+          await changeDateLogin(localStorage.getItem("id"))
           data = await getOneUser(email).then(data => data)
           if (!data) alert("Пользователь удалён!")
         }).catch((err) => alert(err.response.data.message)).finally(() => setLoading(true))
@@ -46,7 +46,7 @@ function Authorization() {
           }
         }
       } else if (isRegin) {
-        let res = await regin(email, password, name).then(() => history("/login")).catch((err) => alert(err.response.data.message))
+        let res = await regin(email, password, name).then(() => history("/login")).catch((err) => alert(err.response.data.message)).finally(() => setLoading(true))
       }
     } catch (e) {
       console.log(e)
