@@ -131,7 +131,7 @@ const Main = observer(() => {
               })}</tr> : '') : ''}
             </tbody>
           </Table >
-        </div > : ""}
+        </div > : history("/login")}
     </div >)
 })
 
